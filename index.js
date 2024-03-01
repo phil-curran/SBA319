@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 // routes
 const userRoutes = require("./routes/userRoutes.js");
+const taskRoutes = require("./routes/taskRoutes.js");
 
 // initialize app
 const app = express();
@@ -24,6 +25,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({ extended: true }));
 // routes
 app.use("/users", userRoutes);
+app.use("/tasks", taskRoutes);
 
 // db
 const db = process.env.MONGO_URI;

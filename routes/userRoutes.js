@@ -4,48 +4,67 @@ const router = express.Router();
 
 // ROUTES
 // get all users
-router.get("/", (req, res) => {
-  res.json({ msg: "GET all users @ / routes / userRoutes.js" });
+router.get("/", async (req, res) => {
+  try {
+    await User.find().then((result) => {
+      res.send(result);
+    }, console.log("All users retrieved!"));
+  } catch (err) {
+    console.error("Error retrieving users: ", err.message);
+    res.status(500).send("Error retrieving users.");
+  }
 });
 
 // get specific user
-router.get("/:id", (req, res) => {
-  res.json({
-    msg: `GET a single user (id: ${req.params.id}) @ routes / userRoutes.js`,
-  });
+router.get("/:id", async (req, res) => {
+  try {
+    await User.findById(req.params.id).then((result) => {
+      res.send(result);
+    }, console.log("Single user retrieved!"));
+  } catch (err) {
+    console.error("Error retrieving user: ", err.message);
+    res.status(500).send("Error retrieving user.");
+  }
 });
 
 // add user
-router.post("/", (req, res) => {
-  res.json(req.body);
-});
-
 router.post("/add-user", async (req, res) => {
   try {
-    // create new blog
-    console.log("req.body: ", req.body);
     const user = new User({ ...req.body });
-    // save is mongoose method for saving in a collection
     await user.save();
-    // res.send displays to browser
     res.send("new user created");
-    //or
-    // this displays response object
-    // res.send(result);
   } catch (err) {
-    console.error("Error creating new user:", err.message);
+    console.error("Error creating new user: ", err.message);
     res.status(500).send("Error creating new user");
   }
 });
 
 // delete user
-router.delete("/:id", (req, res) => {
-  res.json({ msg: "DELETE a user @ routes / userRoutes.js" });
+router.delete("/delete-user/:id", async (req, res) => {
+  try {
+    await User.findByIdAndDelete(req.params.id).then((result) => {
+      res.send(result);
+    }, console.log("User deleted!"));
+  } catch (err) {
+    console.error("Error deleting user: ", err.message);
+    res.status(500).send("Error deleting user.");
+  }
 });
 
 // edit user
-router.patch("/:id", (req, res) => {
-  res.json({ msg: "Edit a user @ routes / userRoutes.js" });
+router.patch("/update-user/:id", async (req, res) => {
+  try {
+    await User.findByIdAndUpdate(
+      req.params.id,
+      { ...req.body },
+      { new: true }
+    ).then((result) => {
+      res.send(result);
+    }, console.log("User info updated!"));
+  } catch (err) {
+    console.error("Error updating user info: ", err.message);
+    res.status(500).send("Error updating user");
+  }
 });
 
 module.exports = router;
