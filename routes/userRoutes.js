@@ -15,6 +15,16 @@ router.get("/", async (req, res) => {
   }
 });
 
+// get add user form
+router.get("/add-user", async (req, res) => {
+  res.render("users/add-user", { title: "Add user" });
+});
+
+// get edit user form
+router.get("/edit-user", async (req, res) => {
+  res.render("users/edit-user", { title: "Edit user" });
+});
+
 // get specific user
 router.get("/:id", async (req, res) => {
   try {

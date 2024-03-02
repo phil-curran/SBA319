@@ -4,22 +4,9 @@ const User = require("../models/user.js");
 const router = express.Router();
 
 // ROUTES
-// get all tasks
-router.get("/", async (req, res) => {
-  try {
-    await Task.find().then((result) => {
-      console.log("All tasks retrieved!");
-      res.render("tasks", { title: "Task Overview" });
-    });
-  } catch (err) {
-    console.error("Error retrieving tasks: ", err.message);
-    res.status(500).send("Error retrieving tasks.");
-  }
-});
-
 // get 'add task' form
 router.get("/add-task", async (req, res) => {
-  res.render("add-task", { title: "Add Task" });
+  res.render("tasks/add-task", { title: "Add Task" });
 });
 
 // add task
@@ -57,7 +44,7 @@ router.post("/task-detail/:id/add-comment", async (req, res) => {
 router.get("/task-detail/:id", async (req, res) => {
   try {
     await Task.findById(req.params.id).then((result) => {
-      console.log("Task retrieved!");
+      console.log("Task retritaskseved!");
       res.render("tasks/task-detail", { title: "Task Detail" });
     });
   } catch (err) {
