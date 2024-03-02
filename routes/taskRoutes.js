@@ -4,43 +4,69 @@ const User = require("../models/user.js");
 const router = express.Router();
 
 // ROUTES
-// get all users
+// get all tasks
 router.get("/", async (req, res) => {
   try {
     await Task.find().then((result) => {
-      res.send(result);
-    }, console.log("All tasks retrieved!"));
+      console.log("All tasks retrieved!");
+      res.render("tasks", { title: "Task Overview" });
+    });
   } catch (err) {
     console.error("Error retrieving tasks: ", err.message);
     res.status(500).send("Error retrieving tasks.");
   }
 });
 
-// get specific user
-router.get("/:id", async (req, res) => {
-  try {
-    await Task.findById(req.params.id).then((result) => {
-      res.send(result);
-    }, console.log("Single task retrieved!"));
-  } catch (err) {
-    console.error("Error retrieving task: ", err.message);
-    res.status(500).send("Error retrieving task.");
-  }
+// get 'add task' form
+router.get("/add-task", async (req, res) => {
+  res.render("add-task", { title: "Add Task" });
 });
 
-// add user
+// add task
 router.post("/add-task", async (req, res) => {
   try {
     const task = new Task({ ...req.body });
     await task.save();
-    res.send("New task created");
+    console.log("Task added");
+    res.redirect("/");
   } catch (err) {
     console.error("Error creating new task: ", err.message);
     res.status(500).send("Error creating new task");
   }
 });
 
-// delete user
+// get comment form
+router.get("/task-detail/:id/add-comment", async (req, res) => {
+  res.render("tasks/add-comment", { title: "Add Comment" });
+});
+
+// add comment
+router.post("/task-detail/:id/add-comment", async (req, res) => {
+  try {
+    const task = new Task({ ...req.body });
+    await task.save();
+    console.log("Task added");
+    res.redirect("tasks/task-detail/:id");
+  } catch (err) {
+    console.error("Error adding comment: ", err.message);
+    res.status(500).send("Error adding new comment");
+  }
+});
+
+// get specific task
+router.get("/task-detail/:id", async (req, res) => {
+  try {
+    await Task.findById(req.params.id).then((result) => {
+      console.log("Task retrieved!");
+      res.render("tasks/task-detail", { title: "Task Detail" });
+    });
+  } catch (err) {
+    console.error("Error retrieving task: ", err.message);
+    res.status(500).send("Error retrieving task.");
+  }
+});
+
+// delete task
 router.delete("/delete-task/:id", async (req, res) => {
   try {
     await Task.findByIdAndDelete(req.params.id).then((result) => {
@@ -52,19 +78,24 @@ router.delete("/delete-task/:id", async (req, res) => {
   }
 });
 
-// edit user
-router.patch("/update-user/:id", async (req, res) => {
+// edit task form
+router.get("/update-task/:id", async (req, res) => {
+  res.render("tasks/edit-task", { title: "Edit Task" });
+});
+
+// edit task
+router.patch("/update-task/:id", async (req, res) => {
   try {
-    await User.findByIdAndUpdate(
+    await Task.findByIdAndUpdate(
       req.params.id,
       { ...req.body },
       { new: true }
     ).then((result) => {
       res.send(result);
-    }, console.log("User info updated!"));
+    }, console.log("Task info updated!"));
   } catch (err) {
-    console.error("Error updating user info:", err.message);
-    res.status(500).send("Error updating user");
+    console.error("Error updating task: ", err.message);
+    res.status(500).send("Error updating task.");
   }
 });
 

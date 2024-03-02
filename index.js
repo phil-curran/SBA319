@@ -43,6 +43,22 @@ app.listen(process.env.PORT, () => {
 });
 
 // routes
+app.get("/all-tasks", (req, res) => {
+  res.render("all-tasks", { title: "All Tasks" });
+});
+
+app.get("/task-by-person", (req, res) => {
+  res.render("by-person", { title: "Task By Person" });
+});
+
+app.get("/task-by-completion", (req, res) => {
+  res.render("by-status", { title: "Task By Status" });
+});
+
+app.get("/task-by-urgency", (req, res) => {
+  res.render("by-urgency", { title: "Task By Urgency" });
+});
+
 app.get("/", (req, res) => {
-  res.json({ msg: "Hello World!" });
+  res.redirect("all-tasks");
 });
