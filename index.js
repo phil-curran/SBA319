@@ -19,7 +19,8 @@ app.set("view engine", "ejs");
 
 // use things
 // utilities
-app.use(express.static("public"));
+app.use(express.static(__dirname + "/public"));
+// app.use(express.static(__dirname + "/public"));
 app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({ extended: true }));
@@ -43,15 +44,15 @@ app.listen(process.env.PORT, () => {
 });
 
 // routes
-app.get("/all-tasks", (req, res) => {
-  res.render("all-tasks", { title: "All Tasks" });
+// app.get("/all-tasks", (req, res) => {
+//   res.render("all-tasks", { title: "All Tasks" });
+// });
+
+app.get("/task-by-user", (req, res) => {
+  res.render("by-person", { title: "Task By User" });
 });
 
-app.get("/task-by-person", (req, res) => {
-  res.render("by-person", { title: "Task By Person" });
-});
-
-app.get("/task-by-completion", (req, res) => {
+app.get("/task-by-status", (req, res) => {
   res.render("by-status", { title: "Task By Status" });
 });
 

@@ -1,11 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= title %></title>
-  </head>
+  <%- include('partials/head', { title: title }) %>
   <body>
-    <p>Tasks by completion status.</p>
+    <div class="container">
+      <section class="section">
+        <h1 class="title is-1 has-text-centered"><%= title %></h1>
+
+        <% tasks.forEach((task) => { %>
+        <div class="box">
+          <article class="media">
+            <div class="media-content">
+              <div class="content">
+                <p>
+                  <strong><%= task.title %></strong>
+                  <br />
+                  <%= task.description %>
+                  <br />
+                  <small><%= task.urgency %></small>
+                </p>
+              </div>
+            </div>
+          </article>
+        </div>
+        <% }); %>
+      </section>
+    </div>
   </body>
 </html>

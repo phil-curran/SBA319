@@ -1,11 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= title %></title>
-  </head>
+  <%- include('../partials/head.ejs', { title: title }) %>
   <body>
-    <p>I am task detail.</p>
+    <div class="container">
+      <div class="topNav">
+        <a href="/tasks/all-tasks">
+          <button href="/all-tasks" class="button is-light">< Go Back</button>
+        </a>
+        <h1 class="title is-1 has-text-centered"><%= title %></h1>
+      </div>
+
+      <div class="box">
+        <article class="media">
+          <div class="media-content">
+            <div class="content">
+              <h2 class="title is-2"><%= task.title %></h2>
+              <p><%= task.content %></p>
+              <p>Date Added: <%= task.dateAdded %></p>
+              <p>Urgency: <%= task.urgency %></p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
   </body>
 </html>

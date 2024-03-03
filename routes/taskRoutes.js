@@ -4,6 +4,55 @@ const User = require("../models/user.js");
 const router = express.Router();
 
 // ROUTES
+// get all tasks
+router.get("/all-tasks", async (req, res) => {
+  try {
+    await Task.find().then((result) => {
+      console.log("All tasks retrieved!", result);
+      res.render("all-tasks", { title: "All Tasks", tasks: result });
+    });
+  } catch (err) {
+    console.error("Error retrieving tasks: ", err.message);
+    res.status(500).send("Error retrieving tasks.");
+  }
+});
+
+router.get("/by-user", async (req, res) => {
+  try {
+    await Task.find().then((result) => {
+      console.log("All tasks retrieved!", result);
+      res.render("all-tasks", { title: "Tasks By User", tasks: result });
+    });
+  } catch (err) {
+    console.error("Error retrieving tasks: ", err.message);
+    res.status(500).send("Error retrieving tasks.");
+  }
+});
+
+router.get("/by-status", async (req, res) => {
+  try {
+    await Task.find().then((result) => {
+      console.log("All tasks retrieved!", result);
+      res.render("all-tasks", { title: "Tasks By Status", tasks: result });
+    });
+  } catch (err) {
+    console.error("Error retrieving tasks: ", err.message);
+    res.status(500).send("Error retrieving tasks.");
+  }
+});
+
+router.get("/by-urgency", async (req, res) => {
+  try {
+    await Task.find().then((result) => {
+      console.log("All tasks retrieved!", result);
+      res.render("all-tasks", { title: "Tasks By Urgency", tasks: result });
+    });
+  } catch (err) {
+    console.error("Error retrieving tasks: ", err.message);
+    res.status(500).send("Error retrieving tasks.");
+  }
+});
+
 // get 'add task' form
 router.get("/add-task", async (req, res) => {
   res.render("tasks/add-task", { title: "Add Task" });
@@ -45,7 +94,7 @@ router.get("/task-detail/:id", async (req, res) => {
   try {
     await Task.findById(req.params.id).then((result) => {
       console.log("Task retritaskseved!");
-      res.render("tasks/task-detail", { title: "Task Detail" });
+      res.render("tasks/task-detail", { title: "Task Detail", task: result });
     });
   } catch (err) {
     console.error("Error retrieving task: ", err.message);

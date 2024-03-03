@@ -1,11 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= title %></title>
-  </head>
+<html>
+  <%- include('partials/head', { title: title }) %>
   <body>
-    <p>All Tasks route.</p>
+    <%- include('partials/nav') %>
+    <div class="container">
+      <section class="section">
+        <h1 class="title is-1 has-text-centered"><%= title %></h1>
+
+        <% tasks.forEach((task) => { %>
+        <div class="box">
+          <a href="/tasks/task-detail/<%= task._id %>">
+            <article class="media">
+              <div class="media-content">
+                <div class="content">
+                  <h2 class="title is-2"><%= task.title %></h2>
+                  <p><%= task.content %></p>
+                  <p>Date Added: <%= task.dateAdded %></p>
+                  <p>Urgency: <%= task.urgency %></p>
+                </div>
+              </div>
+            </article>
+          </a>
+        </div>
+        <% }); %>
+      </section>
+    </div>
   </body>
 </html>
